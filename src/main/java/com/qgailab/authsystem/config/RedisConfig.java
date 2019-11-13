@@ -40,6 +40,11 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     private static final Duration TTL_HALF_HOUR = Duration.ofMinutes(30);
     /**
+     * 设置15分钟的缓存时间
+     */
+    private static final Duration A_CLOCK = Duration.ofMinutes(15);
+
+    /**
      * from spring boot -data -redis 2.1.X
      *
      * @param factory f
@@ -57,12 +62,16 @@ public class RedisConfig extends CachingConfigurerSupport {
         //设置多个缓存空间
         Set<String> cacheNames = new HashSet<>();
         //cacheNames.add("city_map");
-        cacheNames.add("other");
+        //这是注册暂存区的空间
+        cacheNames.add("register_temp_storage");
+        //这是口令暂存空间
+        cacheNames.add("tokens");
 
         //为每个缓存空间设置不同配置
         Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
         //configMap.put("city_map", config.entryTtl(TTL_HALF_DAY));
-        configMap.put("other", config);
+        configMap.put("register_temp_storage", config);
+        configMap.put("tokens", config.entryTtl(A_CLOCK));
 
         //利用配置构造缓存管理器
         RedisCacheManager redisCacheManager = RedisCacheManager.builder(factory)
@@ -83,6 +92,7 @@ public class RedisConfig extends CachingConfigurerSupport {
     private RedisSerializer<Object> valueSerializer() {
         return new GenericJackson2JsonRedisSerializer();
     }
+
     /**
      * change the default template
      *

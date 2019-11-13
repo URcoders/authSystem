@@ -79,7 +79,7 @@ public class QRCodeUtil {
      */
     public static void main(String[] args) {
         try {
-            create("", ".", "lx");
+            create("URL/user=sgdfhjgsdgfsdvbvsdfg2374678fhgsdf", ".", "lx");
         } catch (IOException e) {
             e.printStackTrace();
         }
