@@ -59,11 +59,15 @@ public enum Status {
     /**
      * 硬件启动
      */
-    HEALTH(0x0d);
+    HEALTH(0x0d),
+    /**
+     * 参数错误
+     */
+    PARAM_ERROR(0x0e);
     private static final Status[] FOR_BITS = {UN_REGISTER, REGISTER,
             GET_ID_CARD_ERROR, GET_ID_CARD_OK, FINGERPRINT_ERROR,
             FINGERPRINT_OK, PHOTO_ERROR, PHOTO_OK, SIGNATURE_ERROR,
-            SIGNATURE_OK, LOGIN_OK, BROKEN, HEALTH};
+            SIGNATURE_OK, LOGIN_OK, BROKEN, HEALTH,PARAM_ERROR};
     private final int bits;
 
     public int getStatus() {

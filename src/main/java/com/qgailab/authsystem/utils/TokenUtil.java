@@ -1,7 +1,7 @@
 package com.qgailab.authsystem.utils;
 
 import com.qgailab.authsystem.config.BloomConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.UUID;
 
