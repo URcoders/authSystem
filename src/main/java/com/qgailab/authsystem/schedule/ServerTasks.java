@@ -17,6 +17,8 @@ public class ServerTasks {
     @Scheduled(cron = "0/2 * * * * ? ")
     public void checkState() {
         //TODO SEND PING TO EVERY NODE AND GET PONG MSG.
+
+
     }
 
 }
