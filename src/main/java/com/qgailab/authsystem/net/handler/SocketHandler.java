@@ -36,7 +36,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
         if (cause instanceof ReadTimeoutException) {
             //do some task
             log.warn("read idle timeout",ctx.channel().remoteAddress());
-            if (!ctx.channel().isActive()){
+            if ( ! ctx.channel().isActive()){
 
             }
         }
