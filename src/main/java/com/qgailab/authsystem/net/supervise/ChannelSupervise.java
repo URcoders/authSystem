@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ChannelSupervise {
 
-
     private  static final ChannelGroup GlobalGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     // K->指纹仪器ID V->ChannelId
     private  static final ConcurrentMap<Integer, Channel> fingerMachineMap = new ConcurrentHashMap<>();
