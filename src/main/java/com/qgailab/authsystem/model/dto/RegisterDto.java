@@ -22,7 +22,6 @@ import java.io.Serializable;
 @Builder
 public class RegisterDto implements Serializable {
 
-
     // 身份证验证仪的编号ID
     private Integer idCardMachine;
 }
