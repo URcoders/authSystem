@@ -67,12 +67,15 @@ public class RedisConfig extends CachingConfigurerSupport {
         cacheNames.add("register_temp_storage");
         //这是口令暂存空间
         cacheNames.add("tokens");
+        // 这是嵌入式信息的暂存区空间
+        cacheNames.add("tcp_temp");
 
         //为每个缓存空间设置不同配置
         Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
         //configMap.put("city_map", config.entryTtl(TTL_HALF_DAY));
         configMap.put("register_temp_storage", config);
         configMap.put("tokens", config.entryTtl(A_CLOCK));
+        configMap.put("tcp_temp",config.entryTtl(A_CLOCK));
 
         //利用配置构造缓存管理器
         RedisCacheManager redisCacheManager = RedisCacheManager.builder(factory)
