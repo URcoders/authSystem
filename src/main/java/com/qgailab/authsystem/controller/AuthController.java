@@ -44,7 +44,8 @@ public class AuthController {
     }
 
     @PostMapping("/getQRCode")
-    public String getQRCode(@RequestBody String token){
+    public String getQRCode(@RequestBody Map<String, Object> map){
+        String token = (String) map.get("token");
         return null;
     }
 }
