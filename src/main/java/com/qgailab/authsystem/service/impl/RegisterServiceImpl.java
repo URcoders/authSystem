@@ -28,7 +28,6 @@ public class RegisterServiceImpl implements RegisterService {
             return Status.PARAM_ERROR.getStatus();
         }
 
-
         return Status.BROKEN.getStatus();
 
     }
