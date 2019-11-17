@@ -1,11 +1,13 @@
 package com.qgailab.authsystem.net.supervise;
 
+import com.qgailab.authsystem.constance.MachineType;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -99,7 +101,6 @@ public class ChannelSupervise {
 
         return travelMap(channel);
     }
-
     /**
      * @Description : 通过机器id查找channel
      * @Param : [machineId]
@@ -107,33 +108,23 @@ public class ChannelSupervise {
      * @Author : SheldonPeng
      * @Date : 2019-11-14
      */
-    public static Channel findFingerMachineChannel(Integer machineId) {
+    public static Channel findChannel(Integer machineId , MachineType machineType) {
 
-        return fingerMachineMap.get(machineId);
-    }
+        switch (machineType){
 
-    /**
-     * @Description : 通过机器id查找channel
-     * @Param : [machineId]
-     * @Return : io.netty.channel.Channel
-     * @Author : SheldonPeng
-     * @Date : 2019-11-14
-     */
-    public static Channel findIdCardMachineChannel(String machineId) {
-
-        return idCardMachineMap.get(machineId);
-    }
-
-    /**
-     * @Description : 通过机器id查找channel
-     * @Param : [machineId]
-     * @Return : io.netty.channel.Channel
-     * @Author : SheldonPeng
-     * @Date : 2019-11-14
-     */
-    public static Channel findSignatureMachineChannel(String machineId) {
-
-        return signatureMachineMap.get(machineId);
+            case SignatureMachine:{
+                return signatureMachineMap.get(machineId);
+            }
+            case IdCardMachine:{
+                return idCardMachineMap.get(machineId);
+            }
+            case FingerMachine:{
+                return fingerMachineMap.get(machineId);
+            }
+            default:{
+                return null;
+            }
+        }
     }
 
     /**
@@ -218,21 +209,6 @@ public class ChannelSupervise {
         }
         return null;
     }
-    private enum MachineType{
-
-        SignatureMachine("SignatureMachine"),
-        IdCardMachine("IdCardMachine"),
-        FingerMachine("FingerMachine");
 
 
-        private String machineType;
-
-        MachineType(String machineType){
-            this.machineType = machineType;
-        }
-        public String getMachineType(){
-            return machineType;
-        }
-
-    }
 }
