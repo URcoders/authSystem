@@ -21,5 +21,4 @@ public interface RegisterService {
      * @Date : 2019-11-13
      */
     Integer checkIdCard(RegisterDto registerDto);
-
 }
