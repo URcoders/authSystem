@@ -3,6 +3,7 @@ package com.qgailab.authsystem.service;
 
 import com.qgailab.authsystem.constance.Status;
 import com.qgailab.authsystem.model.dto.RegisterDto;
+import com.qgailab.authsystem.model.vo.RegisterVo;
 
 /**
  * @Description : 认证系统注册的接口服务层
@@ -21,4 +22,13 @@ public interface RegisterService {
      * @Date : 2019-11-13
      */
     Integer checkIdCard(RegisterDto registerDto);
+
+    /**
+     * @Description : 读取身份证信息
+     * @Param : [registerDto]
+     * @Return : java.lang.Integer
+     * @Author : SheldonPeng
+     * @Date : 2019-11-18
+     */
+    RegisterVo loadIdCard(RegisterDto registerDto);
 }
