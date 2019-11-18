@@ -29,6 +29,8 @@ public class AuthVo implements Serializable {
     private String idCard;
     // 登录的token
     private String token;
+    // 二维码地址
+    private String address;
     public AuthVo(Integer status){
         this.status = status;
     }
