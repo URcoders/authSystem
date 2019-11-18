@@ -13,7 +13,7 @@ import com.qgailab.authsystem.model.po.UserPo;
  * @Author : SheldonPeng
  * @Date : 2019-11-17
  */
-public interface TcpCacheService {
+public interface CacheService {
 
     /**
      * @Description : 存储机器健康信息的缓存
@@ -146,31 +146,22 @@ public interface TcpCacheService {
      * @Date : 2019-11-17
      */
     UserPo queryUserInfo(String idCard);
+
+    /**
+     * @Description : 生成token
+     * @Param : [token,idCard]
+     * @Return : void
+     * @Author : SheldonPeng
+     * @Date : 2019-11-18
+     */
+    String cacheToken(String token , String idCard);
     
     /**
-     * @title : 查询token的缓存
-     * @param ：
-     * @return : 
+     * @title : 查询用户的身份证信息      
+     * @param :[token]
+     * @return : java.lang.String
      * @author : huange7
-     * @date : 2019-11-18 13:49
+     * @date : 2019-11-18 21:41
      */
-     String queryToken(String token);
-     
-     /**
-      * @title : 缓存用户的token      
-      * @param :[token]
-      * @return : java.lang.String
-      * @author : huange7
-      * @date : 2019-11-18 13:50
-      */
-     String cacheToken(String token);
-     
-     /**
-      * @title : 删除用户的token缓存      
-      * @param :[token]
-      * @return : void
-      * @author : huange7
-      * @date : 2019-11-18 13:50
-      */
-     void delToken(String token);
+    String queryIdCard(String token);
 }

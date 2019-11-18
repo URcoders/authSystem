@@ -1,9 +1,12 @@
 package com.qgailab.authsystem.controller;
 
 
+import com.alibaba.druid.util.StringUtils;
+import com.qgailab.authsystem.constance.Status;
 import com.qgailab.authsystem.model.dto.RegisterDto;
-import com.qgailab.authsystem.model.vo.LoginVo;
-import com.qgailab.authsystem.model.vo.RegisterVo;
+import com.qgailab.authsystem.model.vo.AuthVo;
+import com.qgailab.authsystem.service.LoginService;
+import com.qgailab.authsystem.service.QRCodeService;
 import com.qgailab.authsystem.service.RegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -29,20 +34,41 @@ public class AuthController {
     @Autowired
     private RegisterService registerService;
 
+    @Autowired
+    private LoginService loginService;
+
+    @Autowired
+    private QRCodeService qrCodeService;
+
     @PostMapping("/checkIdCard")
-    public RegisterVo checkIdCard(@RequestBody RegisterDto registerDto){
-        return new RegisterVo(registerService.checkIdCard(registerDto));
+    public AuthVo checkIdCard(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.checkIdCard(registerDto));
+    }
+
+    @PostMapping("/loadIdCard")
+    public AuthVo loadIdCard(@RequestBody RegisterDto registerDto){
+        return registerService.loadIdCard(registerDto);
+    }
+
+    @PostMapping("/loadFinger")
+    public AuthVo loadFinger(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.loadFinger(registerDto));
+    }
+
+    @PostMapping("/signature")
+    public AuthVo signature(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.signature(registerDto));
     }
 
     @PostMapping("/login")
-    public LoginVo login(@RequestBody Map<String, Object> map) {
+    public AuthVo login(@RequestBody Map<String, Object> map) {
         String idCardMachine = (String) map.get("idCardMachine");
-        return LoginVo.fail();
+        return loginService.login(idCardMachine);
     }
 
     @PostMapping("/getQRCode")
-    public String getQRCode(@RequestBody Map<String, Object> map){
+    public String getQRCode(@RequestBody Map<String, Object> map, HttpServletRequest request) throws IOException {
         String token = (String) map.get("token");
-        return null;
+        return qrCodeService.getQRCode(token);
     }
 }

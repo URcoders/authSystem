@@ -1,6 +1,6 @@
 package com.qgailab.authsystem.service;
 
-import com.qgailab.authsystem.model.vo.LoginVo;
+import com.qgailab.authsystem.model.vo.AuthVo;
 
 /**
  * @ClassName LoginService
@@ -11,5 +11,5 @@ import com.qgailab.authsystem.model.vo.LoginVo;
  */
 public interface LoginService {
 
-    LoginVo login(String idCardMachine);
+    AuthVo login(String idCardMachine);
 }
