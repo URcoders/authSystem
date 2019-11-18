@@ -1,15 +1,12 @@
 package com.qgailab.authsystem.controller;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.qgailab.authsystem.model.dto.RegisterDto;
 import com.qgailab.authsystem.model.vo.LoginVo;
 import com.qgailab.authsystem.model.vo.RegisterVo;
 import com.qgailab.authsystem.service.RegisterService;
-import com.qgailab.authsystem.utils.VerifyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
