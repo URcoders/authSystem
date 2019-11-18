@@ -43,9 +43,9 @@ public class CacheServiceImpl implements CacheService {
         return null;
     }
 
-    @Cacheable(value = "tcp_temp" , key = "'idCardInfo:' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "'idCardInfo:' + #idCardInfoDto.idCardMachine")
     @Override
-    public IdCardInfoDto cacheIdCardInfo(Integer machineId, IdCardInfoDto idCardInfoDto) {
+    public IdCardInfoDto cacheIdCardInfo(IdCardInfoDto idCardInfoDto) {
         return idCardInfoDto;
     }
 
@@ -61,9 +61,9 @@ public class CacheServiceImpl implements CacheService {
         return null;
     }
 
-    @Cacheable(value = "tcp_temp" , key = "'fingerInfo:' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "'fingerInfo:' + #fingerInfoDto.fingerMachine")
     @Override
-    public FingerInfoDto cacheFingerInfo(Integer machineId, FingerInfoDto fingerInfoDto) {
+    public FingerInfoDto cacheFingerInfo(FingerInfoDto fingerInfoDto) {
         return fingerInfoDto;
     }
 
@@ -79,9 +79,9 @@ public class CacheServiceImpl implements CacheService {
         return null;
     }
 
-    @Cacheable(value = "tcp_temp" , key = "'signatureInfo:' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "'signatureInfo:' + #signatureInfoDto.signatureMachine")
     @Override
-    public SignatureInfoDto cacheSignatureInfo(Integer machineId, SignatureInfoDto signatureInfoDto) {
+    public SignatureInfoDto cacheSignatureInfo(SignatureInfoDto signatureInfoDto) {
         return signatureInfoDto;
     }
 
