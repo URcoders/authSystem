@@ -24,4 +24,13 @@ public class RegisterDto implements Serializable {
 
     // 身份证验证仪的编号ID
     private Integer idCardMachine;
+
+    // 指纹验证仪的编号ID
+    private Integer fingerMachine;
+
+    // 签名验证仪的编号ID
+    private Integer signatureMachine;
+
+    // 身份证号
+    private String idCard;
 }

@@ -5,7 +5,7 @@ import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.SignatureInfoDto;
 import com.qgailab.authsystem.model.po.UserPo;
-import com.qgailab.authsystem.service.TcpCacheService;
+import com.qgailab.authsystem.service.CacheService;
 import com.qgailab.authsystem.utils.ObjectUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class TcpCacheServiceImpl implements TcpCacheService {
+public class CacheServiceImpl implements CacheService {
 
 
     @Cacheable(value = "tcp_temp" , key = "#machineType + ':' + #machineId")
@@ -91,7 +91,7 @@ public class TcpCacheServiceImpl implements TcpCacheService {
 
     }
 
-    @Cacheable(value =  "tcp_temp" , key = "'signatureInfo' + #machineId")
+    @Cacheable(value =  "tcp_temp" , key = "'signatureInfo:' + #machineId")
     @Override
     public SignatureInfoDto querySignatureInfo(Integer machineId) {
         return null;
@@ -114,27 +114,22 @@ public class TcpCacheServiceImpl implements TcpCacheService {
 
     }
 
-    @Cacheable(value = "register_temp_storage" , key = "'userInfo' + #idCard")
+    @Cacheable(value = "register_temp_storage" , key = "'userInfo:' + #idCard")
     @Override
     public UserPo queryUserInfo(String idCard) {
         return null;
     }
 
+
+    @Cacheable(value = "tokens" , key = "#token")
     @Override
-    @Cacheable(value = "tokens", key = "'token:' + #token")
-    public String queryToken(String token) {
-        return null;
+    public String cacheToken(String token, String idCard) {
+        return idCard;
     }
 
+    @CachePut(value = "tokens", key = "#token")
     @Override
-    @CachePut(value = "tokens", key = "'token:' + #token")
-    public String cacheToken(String token) {
+    public String queryIdCard(String token) {
         return null;
-    }
-
-    @Override
-    @CacheEvict(value = "tokens", key = "'token:' + #token")
-    public void delToken(String token) {
-
     }
 }

@@ -1,5 +1,6 @@
 package com.qgailab.authsystem.net.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -8,7 +9,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.ReadTimeoutException;
 import io.netty.handler.timeout.WriteTimeoutException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * @author linxu
@@ -20,14 +24,22 @@ import org.springframework.stereotype.Component;
 @ChannelHandler.Sharable//如果不是共享处理器，就无法多次添加、移除
 public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
-    private static final char PONG = '1';
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s) throws Exception {
         //do some process
         //response
-        System.err.println(s);
-        channelHandlerContext.channel().writeAndFlush(PONG);
+        log.info("收到socket端信息为 " + s);
+        try {
+            // 解析嵌入式的json信息
+            Object object = objectMapper.readValue(s,Object.class);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

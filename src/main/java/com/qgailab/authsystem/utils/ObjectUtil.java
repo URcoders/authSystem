@@ -1,5 +1,12 @@
 package com.qgailab.authsystem.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qgailab.authsystem.model.dto.IdCardInfoDto;
+import com.qgailab.authsystem.model.dto.SignatureInfoDto;
+import com.qgailab.authsystem.model.po.UserPo;
+import org.springframework.beans.BeanUtils;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
