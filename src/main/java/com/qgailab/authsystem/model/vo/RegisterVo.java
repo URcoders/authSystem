@@ -1,5 +1,6 @@
 package com.qgailab.authsystem.model.vo;
 
+import com.qgailab.authsystem.constance.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
