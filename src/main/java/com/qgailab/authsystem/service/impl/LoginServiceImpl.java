@@ -2,11 +2,15 @@ package com.qgailab.authsystem.service.impl;
 
 import com.qgailab.authsystem.constance.MachineType;
 import com.qgailab.authsystem.constance.Status;
+import com.qgailab.authsystem.model.dto.IdCardInfoDto;
+import com.qgailab.authsystem.model.po.UserPo;
 import com.qgailab.authsystem.model.vo.LoginVo;
 import com.qgailab.authsystem.net.supervise.TcpMsgSupervise;
 import com.qgailab.authsystem.service.LoginService;
+import com.qgailab.authsystem.service.TcpCacheService;
 import com.qgailab.authsystem.utils.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +24,10 @@ import org.springframework.util.StringUtils;
 @Service
 @Slf4j
 public class LoginServiceImpl implements LoginService {
+
+    @Autowired
+    private TcpCacheService tcpCacheService;
+
     @Override
     public LoginVo login(String idCardMachine) {
         if (StringUtils.isEmpty(idCardMachine)){
@@ -30,24 +38,42 @@ public class LoginServiceImpl implements LoginService {
         TcpMsgSupervise.checkMachineHealth(Integer.valueOf(idCardMachine), MachineType.IdCardMachine);
 
         // 休眠一段时间，此时嵌入式返回的消息会做处理进行缓存区
-        //todo 休眠代码
-        System.out.println("我正在休眠");
+        try {
+            log.info("开始进行休眠");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.info("睡眠失败");
+            e.printStackTrace();
+            return LoginVo.fail(Status.GET_ID_CARD_ERROR);
+        }
         // 休眠完毕，进入缓存区获取身份证信息。如获取不到则再次进入休眠
-        String idCard = "身份证";
+        IdCardInfoDto idCard = tcpCacheService.queryIdCardInfo(Integer.valueOf(idCardMachine));
         for (int i = 0; i < 2; i++){
-            if (StringUtils.isEmpty(idCard)){
+            if (null == idCard){
                 log.info("获取不到身份证信息");
                 if (i == 0){
-                    //todo 进入第二次休眠
-                    System.out.println("我正在睡觉");
-                    idCard = "新的身份证";
+                    try {
+                        log.info("进入新的睡眠期，等待信息的获取");
+                        Thread.sleep(15000);
+                    } catch (InterruptedException e) {
+                        log.info("睡眠失败");
+                        e.printStackTrace();
+                    }
+                    idCard = tcpCacheService.queryIdCardInfo(Integer.valueOf(idCardMachine));
                 }else{
                     log.info("身份证信息获取失败");
                     return LoginVo.fail(Status.GET_ID_CARD_ERROR);
                 }
             }
         }
-        String token = TokenUtil.createToken(idCard);
+        // 获取信息成功，通知嵌入式设备
+        TcpMsgSupervise.loadIdInfomation(Integer.valueOf(idCardMachine));
+
+        String token = TokenUtil.createToken("idCard");
+
+        //todo 进行数据库的查询，查看当前idCard是否注册过。0
+        // 加密token，而后存入缓存区
+        tcpCacheService.cacheToken(token);
         return LoginVo.success(Status.GET_ID_CARD_OK, token);
     }
 }

@@ -119,4 +119,22 @@ public class TcpCacheServiceImpl implements TcpCacheService {
     public UserPo queryUserInfo(String idCard) {
         return null;
     }
+
+    @Override
+    @Cacheable(value = "tokens", key = "'token:' + #token")
+    public String queryToken(String token) {
+        return null;
+    }
+
+    @Override
+    @CachePut(value = "tokens", key = "'token:' + #token")
+    public String cacheToken(String token) {
+        return null;
+    }
+
+    @Override
+    @CacheEvict(value = "tokens", key = "'token:' + #token")
+    public void delToken(String token) {
+
+    }
 }

@@ -20,5 +20,6 @@ import java.io.Serializable;
 //@Builder
 public class IdCardInfoDto implements Serializable {
 
+    private String idCard;
 
 }

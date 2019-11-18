@@ -146,5 +146,31 @@ public interface TcpCacheService {
      * @Date : 2019-11-17
      */
     UserPo queryUserInfo(String idCard);
-
+    
+    /**
+     * @title : 查询token的缓存
+     * @param ：
+     * @return : 
+     * @author : huange7
+     * @date : 2019-11-18 13:49
+     */
+     String queryToken(String token);
+     
+     /**
+      * @title : 缓存用户的token      
+      * @param :[token]
+      * @return : java.lang.String
+      * @author : huange7
+      * @date : 2019-11-18 13:50
+      */
+     String cacheToken(String token);
+     
+     /**
+      * @title : 删除用户的token缓存      
+      * @param :[token]
+      * @return : void
+      * @author : huange7
+      * @date : 2019-11-18 13:50
+      */
+     void delToken(String token);
 }
