@@ -2,8 +2,6 @@ package com.qgailab.authsystem.net.supervise;
 
 import com.qgailab.authsystem.constance.MachineType;
 import io.netty.channel.Channel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * @Description : TCP消息控制器
@@ -39,7 +37,7 @@ public class TcpMsgSupervise {
      * @Author : SheldonPeng
      * @Date : 2019-11-16
      */
-    public static boolean loadIdInfomation(Integer machineId){
+    public static boolean loadIdCardInfomation(Integer machineId){
 
         Channel channel = ChannelSupervise.findChannel(machineId,MachineType.IdCardMachine);
         if ( null == channel ){

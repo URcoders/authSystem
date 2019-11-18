@@ -14,10 +14,14 @@ import java.io.Serializable;
  * @Author : SheldonPeng
  * @Date : 2019-11-17
  */
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SignatureInfoDto implements Serializable {
 
+    // 签名信息
+    private String signature;
+    //  机器ID
+    private Integer signatureMachine;
 }

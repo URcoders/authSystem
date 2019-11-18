@@ -32,4 +32,9 @@ public class AuthController {
     public RegisterVo checkIdCard(@RequestBody RegisterDto registerDto){
         return new RegisterVo(registerService.checkIdCard(registerDto));
     }
+
+    @PostMapping("/loadIdCard")
+    public RegisterVo loadIdCard(@RequestBody RegisterDto registerDto){
+        return registerService.loadIdCard(registerDto);
+    }
 }

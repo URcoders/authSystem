@@ -14,11 +14,15 @@ import java.io.Serializable;
  * @author: SheledonPeng
  * @Date: $
  */
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class FingerInfoDto implements Serializable {
 
+    // 指纹信息
+    private String fingerInfo;
+    // 机器ID
+    private Integer fingerMachine;
 
 }
