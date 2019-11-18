@@ -1,5 +1,6 @@
 package com.qgailab.authsystem.net.supervise;
 
+import com.qgailab.authsystem.constance.Command;
 import com.qgailab.authsystem.constance.MachineType;
 import io.netty.channel.Channel;
 
@@ -26,7 +27,7 @@ public class TcpMsgSupervise {
         if ( null == channel){
             return false;
         }
-        channel.writeAndFlush("ready");
+        channel.writeAndFlush(Command.READY.getCommand());
         return true;
     }
 
@@ -37,13 +38,13 @@ public class TcpMsgSupervise {
      * @Author : SheldonPeng
      * @Date : 2019-11-16
      */
-    public static boolean loadIdCardInfomation(Integer machineId){
+    public static boolean loadIdCardInformation(Integer machineId){
 
         Channel channel = ChannelSupervise.findChannel(machineId,MachineType.IdCardMachine);
         if ( null == channel ){
             return false;
         }
-        channel.writeAndFlush("load");
+        channel.writeAndFlush(Command.LOAD.getCommand());
         return true;
     }
 
@@ -55,13 +56,13 @@ public class TcpMsgSupervise {
      * @Author : SheldonPeng
      * @Date : 2019-11-16
      */
-    public static boolean loadFingerInfomation(Integer machineId){
+    public static boolean loadFingerInformation(Integer machineId){
 
         Channel channel = ChannelSupervise.findChannel(machineId,MachineType.FingerMachine);
         if ( null == channel){
             return false;
         }
-        channel.writeAndFlush("load");
+        channel.writeAndFlush(Command.LOAD.getCommand());
         return true;
     }
 
@@ -72,13 +73,13 @@ public class TcpMsgSupervise {
      * @Author : SheldonPeng
      * @Date : 2019-11-16
      */
-    public static boolean loadSignatureInfomation(Integer machineId) {
+    public static boolean loadSignatureInformation(Integer machineId) {
 
         Channel channel = ChannelSupervise.findChannel(machineId, MachineType.SignatureMachine);
         if (null == channel) {
             return false;
         }
-        channel.writeAndFlush("load");
+        channel.writeAndFlush(Command.LOAD.getCommand());
         return true;
     }
 }

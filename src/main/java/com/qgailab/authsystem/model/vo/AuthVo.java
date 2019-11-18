@@ -21,23 +21,30 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RegisterVo implements Serializable {
+public class AuthVo implements Serializable {
 
     // 返回至前端的状态码
     private Integer status;
     // 身份号
     private String idCard;
-
-    public RegisterVo(Integer status){
+    // 登录的token
+    private String token;
+    public AuthVo(Integer status){
         this.status = status;
     }
 
-    public RegisterVo(Status status){
+    public AuthVo(Status status){
         this.status = status.getStatus();
     }
 
-    public RegisterVo(Status status , String idCard){
+    public AuthVo(Status status , String idCard){
         this.status = status.getStatus();
         this.idCard = idCard;
+    }
+
+    public AuthVo(Status status , String idCard , String token){
+        this.status = status.getStatus();
+        this.idCard = idCard;
+        this.token = token;
     }
 }
