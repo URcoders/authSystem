@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @Description: 用户指纹信息的存储传输实体类$
+ * @Description: 用户指纹信息的存储传输实体类
  * @Param: $
  * @return: $
  * @author: SheledonPeng

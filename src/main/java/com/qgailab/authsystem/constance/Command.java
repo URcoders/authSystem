@@ -11,6 +11,7 @@ package com.qgailab.authsystem.constance;
 public enum Command {
     ACCPECT_OK("1"),
     ACCPECT_ERROR("2"),
+    READY("ready"),
     LOAD("load"),
     ACK("ack");
     private final String command;

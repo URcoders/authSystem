@@ -1,7 +1,9 @@
 package com.qgailab.authsystem.mapper;
 
 import com.qgailab.authsystem.model.po.UserPo;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -20,5 +22,11 @@ public interface UserMapper {
 
     @Select("SELECT count(*) FROM user WHERE id_card = #{idCard}")
     Integer getCountByIdCard(String idCard);
+
+    @Insert("INSERT INTO user(id_card,name,sex,finger_info,signature,nation" +
+            ",register_date,tel,address,get_card_date) " +
+            "values(#{idCard},#{name},#{sex},#{finger_info},#{signature},#{nation}," +
+            "#{register_date},#{tel},#{address},#{getCardDate})")
+    void insertUser(UserPo userPo);
 
 }

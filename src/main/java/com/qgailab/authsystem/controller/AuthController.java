@@ -1,13 +1,9 @@
 package com.qgailab.authsystem.controller;
 
 
-import com.alibaba.druid.util.StringUtils;
-import com.qgailab.authsystem.constance.Status;
 import com.qgailab.authsystem.model.dto.RegisterDto;
-import com.qgailab.authsystem.model.vo.RegisterVo;
-import com.qgailab.authsystem.net.supervise.TcpMsgSupervise;
+import com.qgailab.authsystem.model.vo.AuthVo;
 import com.qgailab.authsystem.service.RegisterService;
-import com.qgailab.authsystem.utils.VerifyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,12 +25,22 @@ public class AuthController {
     private RegisterService registerService;
 
     @PostMapping("/checkIdCard")
-    public RegisterVo checkIdCard(@RequestBody RegisterDto registerDto){
-        return new RegisterVo(registerService.checkIdCard(registerDto));
+    public AuthVo checkIdCard(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.checkIdCard(registerDto));
     }
 
     @PostMapping("/loadIdCard")
-    public RegisterVo loadIdCard(@RequestBody RegisterDto registerDto){
+    public AuthVo loadIdCard(@RequestBody RegisterDto registerDto){
         return registerService.loadIdCard(registerDto);
+    }
+
+    @PostMapping("/loadFinger")
+    public AuthVo loadFinger(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.loadFinger(registerDto));
+    }
+
+    @PostMapping("/signature")
+    public AuthVo signature(@RequestBody RegisterDto registerDto){
+        return new AuthVo(registerService.signature(registerDto));
     }
 }
