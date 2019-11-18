@@ -126,4 +126,10 @@ public class CacheServiceImpl implements CacheService {
     public String cacheToken(String token, String idCard) {
         return idCard;
     }
+
+    @CachePut(value = "tokens", key = "#token")
+    @Override
+    public String queryIdCard(String token) {
+        return null;
+    }
 }

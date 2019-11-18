@@ -22,7 +22,6 @@ import java.io.Serializable;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterDto implements Serializable {
 
-
     // 身份证验证仪的编号ID
     private Integer idCardMachine;
 

@@ -155,4 +155,13 @@ public interface CacheService {
      * @Date : 2019-11-18
      */
     String cacheToken(String token , String idCard);
+    
+    /**
+     * @title : 查询用户的身份证信息      
+     * @param :[token]
+     * @return : java.lang.String
+     * @author : huange7
+     * @date : 2019-11-18 21:41
+     */
+    String queryIdCard(String token);
 }
