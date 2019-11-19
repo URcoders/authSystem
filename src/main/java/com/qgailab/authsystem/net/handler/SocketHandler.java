@@ -50,8 +50,17 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        ChannelSupervise.closeChannel(ctx.channel());
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("收到socket端信息为 " + msg);
+        if ( msg.equals("PING")){
+            ctx.writeAndFlush("PONG");
+            return;
+        }
         try {
             // 解析嵌入式的json信息
             Object object = ObjectUtil.parseJson(msg.toString());
@@ -81,7 +90,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
                 if ( ChannelSupervise.findChannel(((FingerInfoDto) object).getFingerMachine()
                         ,MachineType.FingerMachine) == null ){
-                    ctx.writeAndFlush("请先授权后再发送信息!");
+                    ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
                 }
                 cacheService.cacheFingerInfo((FingerInfoDto) object);
@@ -91,7 +100,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
                 if ( ChannelSupervise.findChannel(((SignatureInfoDto) object).getSignatureMachine(),
                         MachineType.SignatureMachine) == null ){
-                    ctx.writeAndFlush("请先授权后再发送信息!");
+                    ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
                 }
                 cacheService.cacheSignatureInfo((SignatureInfoDto)object);
@@ -101,7 +110,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
                 if ( ChannelSupervise.findChannel(((IdCardInfoDto) object).getIdCardMachine(),
                         MachineType.IdCardMachine) == null ){
-                    ctx.writeAndFlush("请先授权后再发送信息!");
+                    ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
                 }
                 cacheService.cacheIdCardInfo((IdCardInfoDto) object);
@@ -112,6 +121,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
         } catch (Exception e) {
             e.printStackTrace();
+            log.info("嵌入式下毒，解析信息失败");
         }
     }
 

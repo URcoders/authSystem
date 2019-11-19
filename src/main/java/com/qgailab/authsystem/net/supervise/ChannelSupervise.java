@@ -57,12 +57,12 @@ public class ChannelSupervise {
         if ( GlobalGroup.contains(channel)){
 
             channel.close();
-            GlobalGroup.remove(channel);
             Integer id = travelMap(channel);
             Map<Integer, Channel> channelMap = getMapByChannel(channel);
             if ( id != null && channelMap != null ){
                 channelMap.remove(id);
             }
+            GlobalGroup.remove(channel);
         }
     }
 

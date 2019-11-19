@@ -13,6 +13,7 @@ public enum Command {
     ACCPECT_ERROR("2"),
     READY("ready"),
     LOAD("load"),
+    UNAUTHORIZED("unauthorized"),
     ACK("ack");
     private final String command;
 

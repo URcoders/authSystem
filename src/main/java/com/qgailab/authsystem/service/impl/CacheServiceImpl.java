@@ -37,7 +37,7 @@ public class CacheServiceImpl implements CacheService {
 
     }
 
-    @Cacheable(value = "tcp_temp" , key = "#machineType + ':' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "#machineType + ':' + #machineId" , unless="#result == null")
     @Override
     public Integer queryMachineHealth(MachineType machineType, Integer machineId) {
         return null;
@@ -55,7 +55,7 @@ public class CacheServiceImpl implements CacheService {
 
     }
 
-    @Cacheable(value = "tcp_temp" , key = "'idCardInfo:' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "'idCardInfo:' + #machineId" , unless="#result == null")
     @Override
     public IdCardInfoDto queryIdCardInfo(Integer machineId) {
         return null;
@@ -73,7 +73,7 @@ public class CacheServiceImpl implements CacheService {
 
     }
 
-    @Cacheable(value = "tcp_temp" , key = "'fingerInfo:' + #machineId")
+    @Cacheable(value = "tcp_temp" , key = "'fingerInfo:' + #machineId" , unless="#result == null")
     @Override
     public FingerInfoDto queryFingerInfo(Integer machineId) {
         return null;
@@ -91,7 +91,7 @@ public class CacheServiceImpl implements CacheService {
 
     }
 
-    @Cacheable(value =  "tcp_temp" , key = "'signatureInfo:' + #machineId")
+    @Cacheable(value =  "tcp_temp" , key = "'signatureInfo:' + #machineId" , unless="#result == null")
     @Override
     public SignatureInfoDto querySignatureInfo(Integer machineId) {
         return null;
@@ -114,7 +114,7 @@ public class CacheServiceImpl implements CacheService {
 
     }
 
-    @Cacheable(value = "register_temp_storage" , key = "'userInfo:' + #idCard")
+    @Cacheable(value = "register_temp_storage" , key = "'userInfo:' + #idCard" , unless="#result == null")
     @Override
     public UserPo queryUserInfo(String idCard) {
         return null;
@@ -127,9 +127,9 @@ public class CacheServiceImpl implements CacheService {
         return idCard;
     }
 
-    @CachePut(value = "tokens", key = "#token")
+    @CachePut(value = "tokens", key = "#token" , unless="#result == null")
     @Override
-    public String queryIdCard(String token) {
+    public String queryIdCard(String token ) {
         return null;
     }
 }
