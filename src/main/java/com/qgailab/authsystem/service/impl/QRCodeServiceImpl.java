@@ -4,9 +4,11 @@ import com.qgailab.authsystem.service.CacheService;
 import com.qgailab.authsystem.service.QRCodeService;
 import com.qgailab.authsystem.utils.QRCodeUtil;
 import com.qgailab.authsystem.utils.TokenUtil;
+import com.qgailab.authsystem.utils.VerifyUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -35,7 +37,11 @@ public class QRCodeServiceImpl implements QRCodeService {
             return "";
         }
         String idCard = cacheService.queryIdCard(token);
-        String dir = QRCodeServiceImpl.class.getClassLoader().getResource("").getPath();
+        if (StringUtils.isEmpty(idCard)){
+            log.info("用户执行查询二维码连接时传输了错误的token值");
+            return "";
+        }
+        String dir = ResourceUtils.getURL("classpath:").getPath() + "static/QRCode/";
         String url = QRCODE_PATH;
         QRCodeUtil.create(url, dir, token);
         return url;
