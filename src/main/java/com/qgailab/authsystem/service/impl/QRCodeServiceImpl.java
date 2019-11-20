@@ -31,7 +31,7 @@ public class QRCodeServiceImpl implements QRCodeService {
     private static String QRCODE_PATH = "http://192.168.1.104:12306/project/static/QRCode/token.png";
 
     @Override
-    public String getQRCode(String token) throws IOException {
+    public String getQRCode(String token) {
         if (StringUtils.isEmpty(token)) {
             log.info("用户传输的token为空");
             return "";
@@ -41,13 +41,9 @@ public class QRCodeServiceImpl implements QRCodeService {
             log.info("用户执行查询二维码连接时传输了错误的token值");
             return "";
         }
-        String dir = ResourceUtils.getURL("classpath:").getPath() + "static/QRCode/";
         String url = QRCODE_PATH;
-        QRCodeUtil.create(url, dir, token);
+        QRCodeUtil.create(url);
         return url;
     }
 
-    public static void main(String[] args) {
-        System.out.println(QRCodeService.class.getClassLoader().getResource("").getPath());
-    }
 }
