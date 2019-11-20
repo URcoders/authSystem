@@ -48,7 +48,7 @@ public interface CacheService {
      * @Author : SheldonPeng
      * @Date : 2019-11-17
      */
-    IdCardInfoDto cacheIdCardInfo(Integer machineId , IdCardInfoDto idCardInfoDto);
+    IdCardInfoDto cacheIdCardInfo(IdCardInfoDto idCardInfoDto);
 
     /**
      * @Description : 删除嵌入式发送的身份证信息的缓存
@@ -74,7 +74,7 @@ public interface CacheService {
      * @Author : SheldonPeng
      * @Date : 2019-11-17
      */
-    FingerInfoDto cacheFingerInfo(Integer machineId, FingerInfoDto fingerInfoDto);
+    FingerInfoDto cacheFingerInfo(FingerInfoDto fingerInfoDto);
 
     /**
      * @Description : 删除嵌入式发送的指纹信息的缓存
@@ -100,7 +100,7 @@ public interface CacheService {
      * @Author : SheldonPeng
      * @Date : 2019-11-17
      */
-    SignatureInfoDto cacheSignatureInfo(Integer machineId, SignatureInfoDto signatureInfoDto);
+    SignatureInfoDto cacheSignatureInfo( SignatureInfoDto signatureInfoDto);
 
     /**
      * @Description : 删除缓存的签名信息的缓存
