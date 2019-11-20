@@ -284,10 +284,10 @@ public class RegisterServiceImpl implements RegisterService {
         userPo.setRegisterDate(DateUtil.getCurrentTime());
         BeanUtils.copyProperties(signatureInfoDto, userPo);
         log.info("复制签名DTO至userPo中，复制后为 " + userPo);
-        // 删除缓存用户信息
-        cacheService.delUserCache(registerDto.getIdCard());
         userMapper.insertUser(userPo);
         log.info("将用户信息插入mysql成功，注册完毕！");
+        // 删除缓存用户信息
+        cacheService.delUserCache(registerDto.getIdCard());
         return Status.SIGNATURE_OK;
 
     }

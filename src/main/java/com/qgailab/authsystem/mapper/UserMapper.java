@@ -25,8 +25,8 @@ public interface UserMapper {
 
     @Insert("INSERT INTO user(id_card,name,sex,finger_info,signature,nation" +
             ",register_date,tel,address,get_card_date) " +
-            "values(#{idCard},#{name},#{sex},#{finger_info},#{signature},#{nation}," +
-            "#{register_date},#{tel},#{address},#{getCardDate})")
+            "values(#{idCard},#{name},#{sex},#{fingerInfo},#{signature},#{nation}," +
+            "#{registerDate},#{tel},#{address},#{getCardDate})")
     void insertUser(UserPo userPo);
 
 }

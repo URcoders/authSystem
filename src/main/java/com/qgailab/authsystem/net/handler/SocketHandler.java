@@ -65,27 +65,30 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
             // 解析嵌入式的json信息
             Object object = ObjectUtil.parseJson(msg.toString());
 
+            // 判断是否为接入指令
             if ( object instanceof IdCardMachine){
 
-                ChannelSupervise.addidCardMachineChannel(ctx.channel(),((IdCardMachine) object).getIdCardMachine());
-                ctx.writeAndFlush("1");
+                ChannelSupervise.addIdCardMachineChannel(ctx.channel(),((IdCardMachine) object).getIdCardMachine());
+                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
 
             } else if ( object instanceof FingerMachine){
 
-                ChannelSupervise.addfingerMachineChannel(ctx.channel(),((FingerMachine) object).getFingerMachine());
-                ctx.writeAndFlush("1");
+                ChannelSupervise.addFingerMachineChannel(ctx.channel(),((FingerMachine) object).getFingerMachine());
+                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
 
             } else if ( object instanceof SignatureMachine ){
 
                 ChannelSupervise.addSignatureMachineChannel(ctx.channel(),((SignatureMachine) object).getSignatureMachine());
-                ctx.writeAndFlush("1");
+                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
 
+            // 判断是否为指纹机器健康信息
             } else if ( object instanceof MachineHealthDto){
 
                 cacheService.cacheMachineHealth(MachineType.IdCardMachine,
                         ((MachineHealthDto) object).getIdCardMachine(),((MachineHealthDto) object).getHealth());
                 ctx.writeAndFlush(Command.ACK.getCommand());
 
+            // 判断是否为指纹信息传输
             } else if ( object instanceof FingerInfoDto){
 
                 if ( ChannelSupervise.findChannel(((FingerInfoDto) object).getFingerMachine()
@@ -96,6 +99,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
                 cacheService.cacheFingerInfo((FingerInfoDto) object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
 
+            // 判断是否为签名信息传输
             } else if ( object instanceof SignatureInfoDto){
 
                 if ( ChannelSupervise.findChannel(((SignatureInfoDto) object).getSignatureMachine(),
@@ -106,6 +110,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
                 cacheService.cacheSignatureInfo((SignatureInfoDto)object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
 
+            // 判断是否为身份证信息传输
             } else if ( object instanceof IdCardInfoDto){
 
                 if ( ChannelSupervise.findChannel(((IdCardInfoDto) object).getIdCardMachine(),

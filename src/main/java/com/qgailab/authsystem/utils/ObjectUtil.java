@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.MachineHealthDto;
+import com.qgailab.authsystem.model.dto.SignatureInfoDto;
 import com.qgailab.authsystem.model.pojo.FingerMachine;
 import com.qgailab.authsystem.model.pojo.IdCardMachine;
 import com.qgailab.authsystem.model.pojo.SignatureMachine;
+import sun.jvm.hotspot.runtime.SignatureInfo;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -82,7 +84,7 @@ public class ObjectUtil {
             } else if (map.containsKey("fingerInfo")) {
                 return mapToObject(map, FingerInfoDto.class);
             } else if (map.containsKey("signature")) {
-                return mapToObject(map, SignatureMachine.class);
+                return mapToObject(map, SignatureInfoDto.class);
             } else {
                 return null;
             }

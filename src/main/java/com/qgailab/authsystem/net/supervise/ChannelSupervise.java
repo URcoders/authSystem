@@ -7,6 +7,7 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author: SheledonPeng
  * @Date: $
  */
+@Slf4j
 public class ChannelSupervise {
 
     private  static final ChannelGroup GlobalGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
@@ -32,15 +34,19 @@ public class ChannelSupervise {
     private  static final ConcurrentHashMap<Integer,Channel> signatureMachineMap = new ConcurrentHashMap<>();
     // todo 图像暂时未做
 
-    public static void addfingerMachineChannel(Channel channel , Integer machineId) {
+    public static void addFingerMachineChannel(Channel channel , Integer machineId) {
+        log.info("指纹识别仪接入成功【{}】",channel.remoteAddress().toString());
         GlobalGroup.add(channel);
         fingerMachineMap.put(machineId, channel);
     }
-    public static void addidCardMachineChannel(Channel channel , Integer machineId) {
+    public static void addIdCardMachineChannel(Channel channel , Integer machineId) {
+        log.info("身份证读取仪接入成功【{}】",channel.remoteAddress().toString());
+
         GlobalGroup.add(channel);
         idCardMachineMap.put(machineId, channel);
     }
     public static void addSignatureMachineChannel(Channel channel , Integer machineId) {
+        log.info("签名仪接入成功【{}】",channel.remoteAddress().toString());
         GlobalGroup.add(channel);
         signatureMachineMap.put(machineId, channel);
     }

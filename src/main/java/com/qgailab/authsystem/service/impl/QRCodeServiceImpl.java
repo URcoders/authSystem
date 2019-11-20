@@ -28,7 +28,7 @@ public class QRCodeServiceImpl implements QRCodeService {
     @Autowired
     private CacheService cacheService;
 
-    private static String QRCODE_PATH = "http://ip:port/project/static/QRCode/token.png";
+    private static String QRCODE_PATH = "http://192.168.1.104:12306/project/static/QRCode/token.png";
 
     @Override
     public String getQRCode(String token) throws IOException {
