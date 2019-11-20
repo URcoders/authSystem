@@ -67,7 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/getQRCode")
-    public String getQRCode(@RequestBody Map<String, Object> map, HttpServletRequest request) throws IOException {
+    public String getQRCode(@RequestBody Map<String, Object> map) throws IOException {
         String token = (String) map.get("token");
         return qrCodeService.getQRCode(token);
     }
