@@ -11,5 +11,5 @@ import com.qgailab.authsystem.model.vo.AuthVo;
  */
 public interface LoginService {
 
-    AuthVo login(String idCardMachine);
+    AuthVo login(Integer idCardMachine);
 }

@@ -25,10 +25,10 @@ public class BloomConfig {
 
     @PostConstruct
     public void init() {
-        client = new Client(ip, port);
+        /*client = new Client(ip, port);
         //默认创建口令命令空间
         client.delete(NAMESPACE);
-        client.createFilter(NAMESPACE, 1000, 0.001);
+        client.createFilter(NAMESPACE, 1000, 0.001);*/
     }
 
     public static Client getClient() {

@@ -39,7 +39,7 @@ public interface RegisterService {
      * @Author : SheldonPeng
      * @Date : 2019-11-18
      */
-    Status loadFinger(RegisterDto registerDto);
+    AuthVo loadFinger(RegisterDto registerDto);
 
     /**
      * @Description : 录取签名信息
@@ -48,5 +48,5 @@ public interface RegisterService {
      * @Author : SheldonPeng
      * @Date : 2019-11-18
      */
-    Status signature(RegisterDto registerDto);
+    AuthVo signature(RegisterDto registerDto);
 }

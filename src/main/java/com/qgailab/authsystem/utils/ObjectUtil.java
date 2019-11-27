@@ -5,10 +5,7 @@ import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.MachineHealthDto;
 import com.qgailab.authsystem.model.dto.SignatureInfoDto;
-import com.qgailab.authsystem.model.pojo.FingerMachine;
-import com.qgailab.authsystem.model.pojo.IdCardMachine;
-import com.qgailab.authsystem.model.pojo.SignatureMachine;
-import sun.jvm.hotspot.runtime.SignatureInfo;
+
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -64,20 +61,7 @@ public class ObjectUtil {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Map map = objectMapper.readValue(msg, Map.class);
-        if (map.size() == 1) {
-
-            if (map.containsKey("idCardMachine")) {
-                return mapToObject(map, IdCardMachine.class);
-            } else if (map.containsKey("fingerMachine")) {
-                return mapToObject(map, FingerMachine.class);
-            } else if (map.containsKey("signatureMachine")) {
-                return mapToObject(map, SignatureMachine.class);
-            } else {
-                return null;
-            }
-
-
-        } else if (map.size() == 2) {
+        if (map.size() == 2) {
 
             if (map.containsKey("health")) {
                 return mapToObject(map, MachineHealthDto.class);
@@ -88,7 +72,7 @@ public class ObjectUtil {
             } else {
                 return null;
             }
-        } else if (  map.containsKey("idCard")){
+        } else if (map.containsKey("idCard")) {
             return mapToObject(map, IdCardInfoDto.class);
         } else {
             return null;

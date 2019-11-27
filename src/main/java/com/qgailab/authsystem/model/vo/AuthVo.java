@@ -29,13 +29,19 @@ public class AuthVo implements Serializable {
     private String idCard;
     // 登录的token
     private String token;
-    // 二维码地址
-    private String address;
+    // 返回base64数据地址
+    private String data;
     public AuthVo(Integer status){
         this.status = status;
     }
 
     public AuthVo(Status status){
+        this.status = status.getStatus();
+    }
+
+    public AuthVo(String data , Status status){
+
+        this.data = data;
         this.status = status.getStatus();
     }
 

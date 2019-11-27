@@ -1,7 +1,10 @@
 package com.qgailab.authsystem.net.handler;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -40,8 +43,10 @@ public class SocketInitializer extends ChannelInitializer<SocketChannel> {
         //如果有操作时间超过，就会触发UserEventTriggered事件
         //我们只需要在我们的handler中重写userE...进行处理即可
         //0表示禁用
+        ByteBuf byteBuf = Unpooled.copiedBuffer("_$_".getBytes());
         channel.pipeline()
-                .addLast("idleStateHandler", new IdleStateHandler(20, 0, 0, TimeUnit.SECONDS))
+                //.addLast("idleStateHandler", new IdleStateHandler(20, 0, 0, TimeUnit.SECONDS))
+                .addLast(new DelimiterBasedFrameDecoder(1024*1024,true,true,byteBuf))
                 .addLast(decoder)
                 .addLast(encoder)
                 .addLast(handler);

@@ -23,12 +23,13 @@ public class TcpMsgSupervise {
      */
     public static boolean checkMachineHealth(Integer machineId, MachineType machineType){
 
-        Channel channel = ChannelSupervise.findChannel(machineId, machineType);
-        if ( null == channel){
-            return false;
-        }
-        channel.writeAndFlush(Command.READY.getCommand());
-        return true;
+        return ChannelSupervise.sentToAll(Command.READY.getCommand());
+//        Channel channel = ChannelSupervise.findChannel(machineId, machineType);
+//        if ( null == channel){
+//            return false;
+//        }
+//        channel.writeAndFlush(Command.READY.getCommand());
+//        return true;
     }
 
     /**
@@ -40,12 +41,13 @@ public class TcpMsgSupervise {
      */
     public static boolean loadIdCardInformation(Integer machineId){
 
-        Channel channel = ChannelSupervise.findChannel(machineId,MachineType.IdCardMachine);
-        if ( null == channel ){
-            return false;
-        }
-        channel.writeAndFlush(Command.LOAD.getCommand());
-        return true;
+        return ChannelSupervise.sentToAll(Command.LOAD_IDCARD.getCommand());
+//        Channel channel = ChannelSupervise.findChannel(machineId,MachineType.IdCardMachine);
+//        if ( null == channel ){
+//            return false;
+//        }
+//        channel.writeAndFlush(Command.LOAD.getCommand());
+//        return true;
     }
 
 
@@ -58,12 +60,13 @@ public class TcpMsgSupervise {
      */
     public static boolean loadFingerInformation(Integer machineId){
 
-        Channel channel = ChannelSupervise.findChannel(machineId,MachineType.FingerMachine);
-        if ( null == channel){
-            return false;
-        }
-        channel.writeAndFlush(Command.LOAD.getCommand());
-        return true;
+        return ChannelSupervise.sentToAll(Command.LOAD_FINGER.getCommand());
+//        Channel channel = ChannelSupervise.findChannel(machineId,MachineType.FingerMachine);
+//        if ( null == channel){
+//            return false;
+//        }
+//        channel.writeAndFlush(Command.LOAD.getCommand());
+//        return true;
     }
 
     /**
@@ -75,11 +78,12 @@ public class TcpMsgSupervise {
      */
     public static boolean loadSignatureInformation(Integer machineId) {
 
-        Channel channel = ChannelSupervise.findChannel(machineId, MachineType.SignatureMachine);
-        if (null == channel) {
-            return false;
-        }
-        channel.writeAndFlush(Command.LOAD.getCommand());
-        return true;
+        return ChannelSupervise.sentToAll(Command.LOAD_SIGNATURE.getCommand());
+//        Channel channel = ChannelSupervise.findChannel(machineId, MachineType.SignatureMachine);
+//        if (null == channel) {
+//            return false;
+//        }
+//        channel.writeAndFlush(Command.LOAD.getCommand());
+//        return true;
     }
 }

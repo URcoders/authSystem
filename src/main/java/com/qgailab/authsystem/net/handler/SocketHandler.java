@@ -7,9 +7,6 @@ import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.MachineHealthDto;
 import com.qgailab.authsystem.model.dto.SignatureInfoDto;
-import com.qgailab.authsystem.model.pojo.FingerMachine;
-import com.qgailab.authsystem.model.pojo.IdCardMachine;
-import com.qgailab.authsystem.model.pojo.SignatureMachine;
 import com.qgailab.authsystem.net.supervise.ChannelSupervise;
 import com.qgailab.authsystem.net.supervise.TcpMsgSupervise;
 import com.qgailab.authsystem.service.CacheService;
@@ -50,6 +47,11 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
     }
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        ChannelSupervise.addChannel(ctx.channel());
+    }
+
+    @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         ChannelSupervise.closeChannel(ctx.channel());
     }
@@ -65,24 +67,7 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
             // 解析嵌入式的json信息
             Object object = ObjectUtil.parseJson(msg.toString());
 
-            // 判断是否为接入指令
-            if ( object instanceof IdCardMachine){
-
-                ChannelSupervise.addIdCardMachineChannel(ctx.channel(),((IdCardMachine) object).getIdCardMachine());
-                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
-
-            } else if ( object instanceof FingerMachine){
-
-                ChannelSupervise.addFingerMachineChannel(ctx.channel(),((FingerMachine) object).getFingerMachine());
-                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
-
-            } else if ( object instanceof SignatureMachine ){
-
-                ChannelSupervise.addSignatureMachineChannel(ctx.channel(),((SignatureMachine) object).getSignatureMachine());
-                ctx.writeAndFlush(Command.ACCPECT_OK.getCommand());
-
-            // 判断是否为指纹机器健康信息
-            } else if ( object instanceof MachineHealthDto){
+            if ( object instanceof MachineHealthDto){
 
                 cacheService.cacheMachineHealth(MachineType.IdCardMachine,
                         ((MachineHealthDto) object).getIdCardMachine(),((MachineHealthDto) object).getHealth());
@@ -91,33 +76,33 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
             // 判断是否为指纹信息传输
             } else if ( object instanceof FingerInfoDto){
 
-                if ( ChannelSupervise.findChannel(((FingerInfoDto) object).getFingerMachine()
+               /* if ( ChannelSupervise.findChannel(((FingerInfoDto) object).getFingerMachine()
                         ,MachineType.FingerMachine) == null ){
                     ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
-                }
+                }*/
                 cacheService.cacheFingerInfo((FingerInfoDto) object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
 
             // 判断是否为签名信息传输
             } else if ( object instanceof SignatureInfoDto){
 
-                if ( ChannelSupervise.findChannel(((SignatureInfoDto) object).getSignatureMachine(),
+               /* if ( ChannelSupervise.findChannel(((SignatureInfoDto) object).getSignatureMachine(),
                         MachineType.SignatureMachine) == null ){
                     ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
-                }
+                }*/
                 cacheService.cacheSignatureInfo((SignatureInfoDto)object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
 
             // 判断是否为身份证信息传输
             } else if ( object instanceof IdCardInfoDto){
 
-                if ( ChannelSupervise.findChannel(((IdCardInfoDto) object).getIdCardMachine(),
+               /* if ( ChannelSupervise.findChannel(((IdCardInfoDto) object).getIdCardMachine(),
                         MachineType.IdCardMachine) == null ){
                     ctx.writeAndFlush(Command.UNAUTHORIZED.getCommand());
                     return;
-                }
+                }*/
                 cacheService.cacheIdCardInfo((IdCardInfoDto) object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
             } else {
@@ -155,13 +140,16 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
             if (((IdleStateEvent) evt).state() == IdleState.READER_IDLE) {
                 //读空转超时
 
-                ctx.channel().close();
+                log.info("【{}】读空转超时" , ctx.channel().remoteAddress());
+                ChannelSupervise.closeChannel(ctx.channel());
             }
             if (((IdleStateEvent) evt).state() == IdleState.WRITER_IDLE) {
                 //写空转超时
+
+                log.info("【{}】写空转超时" , ctx.channel().remoteAddress());
+                ChannelSupervise.closeChannel(ctx.channel());
             }
-            ctx.channel().close();
-            ctx.close();
+
         }
     }
 }

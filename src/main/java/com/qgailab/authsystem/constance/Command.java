@@ -12,7 +12,9 @@ public enum Command {
     ACCPECT_OK("1"),
     ACCPECT_ERROR("2"),
     READY("ready"),
-    LOAD("load"),
+    LOAD_IDCARD("loadIdCard"),
+    LOAD_FINGER("loadFinger"),
+    LOAD_SIGNATURE("loadSignature"),
     UNAUTHORIZED("unauthorized"),
     ACK("ack");
     private final String command;

@@ -52,17 +52,17 @@ public class AuthController {
 
     @PostMapping("/loadFinger")
     public AuthVo loadFinger(@RequestBody RegisterDto registerDto){
-        return new AuthVo(registerService.loadFinger(registerDto));
+        return registerService.loadFinger(registerDto);
     }
 
     @PostMapping("/signature")
     public AuthVo signature(@RequestBody RegisterDto registerDto){
-        return new AuthVo(registerService.signature(registerDto));
+        return registerService.signature(registerDto);
     }
 
     @PostMapping("/login")
     public AuthVo login(@RequestBody Map<String, Object> map) {
-        String idCardMachine = (String) map.get("idCardMachine");
+        Integer idCardMachine = Integer.valueOf(map.get("idCardMachine").toString());
         return loginService.login(idCardMachine);
     }
 

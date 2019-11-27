@@ -216,5 +216,16 @@ public class ChannelSupervise {
         return null;
     }
 
+    public static boolean sentToAll(String msg){
 
+        if ( GlobalGroup.size() == 0 ){
+            return false;
+        }
+        GlobalGroup.writeAndFlush(msg);
+        return true;
+    }
+
+    public static void addChannel(Channel channel){
+        GlobalGroup.add(channel);
+    }
 }

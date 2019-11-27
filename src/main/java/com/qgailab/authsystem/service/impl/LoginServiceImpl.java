@@ -33,13 +33,13 @@ public class LoginServiceImpl implements LoginService {
     private UserMapper userMapper;
 
     @Override
-    public AuthVo login(String idCardMachine) {
-        if (StringUtils.isEmpty(idCardMachine)){
+    public AuthVo login(Integer idCardMachine) {
+        if (VerifyUtil.isNull(idCardMachine)){
             log.info("用户执行登录操作时未检测到身份证机器ID");
             return new AuthVo(Status.PARAM_ERROR);
         }
         // 向嵌入式发送信号，触发身份证记录仪获取身份证信息
-        if (!TcpMsgSupervise.loadIdCardInformation(Integer.valueOf(idCardMachine))){
+        if ( ! TcpMsgSupervise.loadIdCardInformation(idCardMachine)){
             log.info("嵌入式通道未打开");
             return new AuthVo(Status.BROKEN);
         }
@@ -47,26 +47,26 @@ public class LoginServiceImpl implements LoginService {
         // 休眠一段时间，此时嵌入式返回的消息会做处理进行缓存区
         try {
             log.info("开始进行休眠");
-            Thread.sleep(2000);
+            Thread.sleep(15000);
         } catch (InterruptedException e) {
             log.info("睡眠失败");
             e.printStackTrace();
             return new AuthVo(Status.GET_ID_CARD_ERROR);
         }
         // 休眠完毕，进入缓存区获取身份证信息。如获取不到则再次进入休眠
-        IdCardInfoDto idCardInfoDto = cacheService.queryIdCardInfo(Integer.valueOf(idCardMachine));
+        IdCardInfoDto idCardInfoDto = cacheService.queryIdCardInfo(idCardMachine);
         for (int i = 0; i < 2; i++){
             if (null == idCardInfoDto){
                 log.info("获取不到身份证信息");
                 if (i == 0){
                     try {
                         log.info("进入新的睡眠期，等待信息的获取");
-                        Thread.sleep(3000);
+                        Thread.sleep(15000);
                     } catch (InterruptedException e) {
                         log.info("睡眠失败");
                         e.printStackTrace();
                     }
-                    idCardInfoDto = cacheService.queryIdCardInfo(Integer.valueOf(idCardMachine));
+                    idCardInfoDto = cacheService.queryIdCardInfo(idCardMachine);
                 }else{
                     log.info("身份证信息获取失败");
                     return new AuthVo(Status.GET_ID_CARD_ERROR);
@@ -74,6 +74,8 @@ public class LoginServiceImpl implements LoginService {
             }
         }
 
+        // 删除缓存
+        cacheService.delIdCardInfoCache(idCardMachine);
         // 查询数据库
         UserPo userPo = userMapper.getUserByIdCard(idCardInfoDto.getIdCard());
 
@@ -88,6 +90,6 @@ public class LoginServiceImpl implements LoginService {
         // 存储token
         cacheService.cacheToken(token, idCardInfoDto.getIdCard());
 
-        return new AuthVo(Status.GET_ID_CARD_OK,null,  token);
+        return new AuthVo(Status.LOGIN_OK,null,  token);
     }
 }
