@@ -3,10 +3,7 @@ package com.qgailab.authsystem.net.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qgailab.authsystem.constance.Command;
 import com.qgailab.authsystem.constance.MachineType;
-import com.qgailab.authsystem.model.dto.FingerInfoDto;
-import com.qgailab.authsystem.model.dto.IdCardInfoDto;
-import com.qgailab.authsystem.model.dto.MachineHealthDto;
-import com.qgailab.authsystem.model.dto.SignatureInfoDto;
+import com.qgailab.authsystem.model.dto.*;
 import com.qgailab.authsystem.net.supervise.ChannelSupervise;
 import com.qgailab.authsystem.net.supervise.TcpMsgSupervise;
 import com.qgailab.authsystem.service.CacheService;
@@ -48,6 +45,8 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+
+        log.info("嵌入式{}设备连接成功",ctx.channel().remoteAddress());
         ChannelSupervise.addChannel(ctx.channel());
     }
 
@@ -105,7 +104,13 @@ public class SocketHandler extends SimpleChannelInboundHandler<String> {
                 }*/
                 cacheService.cacheIdCardInfo((IdCardInfoDto) object);
                 ctx.writeAndFlush(Command.ACK.getCommand());
-            } else {
+
+            } else if( object instanceof FaceIDInfoDto){
+
+                cacheService.cacheFaceIDInfo((FaceIDInfoDto) object);
+                ctx.writeAndFlush(Command.ACK.getCommand());
+            }
+            else {
                 log.info("嵌入式下毒");
             }
 

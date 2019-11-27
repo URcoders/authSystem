@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @Description : 用户签名信息的传输实体类
+ * @Description : 人脸信息的传输类
  * @Param :
  * @Return :
  * @Author : SheldonPeng
- * @Date : 2019-11-17
+ * @Date : 2019-11-27
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class SignatureInfoDto implements Serializable {
+public class FaceIDInfoDto implements Serializable {
 
-    // 签名信息
-    private String signature;
-    //  机器ID
-    private Integer signatureMachine;
+    // 指纹信息
+    private String faceIDInfo;
+    // 机器ID
+    private Integer faceIDMachine;
 }

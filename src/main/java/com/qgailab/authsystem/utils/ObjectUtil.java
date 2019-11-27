@@ -1,10 +1,7 @@
 package com.qgailab.authsystem.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qgailab.authsystem.model.dto.FingerInfoDto;
-import com.qgailab.authsystem.model.dto.IdCardInfoDto;
-import com.qgailab.authsystem.model.dto.MachineHealthDto;
-import com.qgailab.authsystem.model.dto.SignatureInfoDto;
+import com.qgailab.authsystem.model.dto.*;
 
 
 import java.lang.reflect.Field;
@@ -69,6 +66,8 @@ public class ObjectUtil {
                 return mapToObject(map, FingerInfoDto.class);
             } else if (map.containsKey("signature")) {
                 return mapToObject(map, SignatureInfoDto.class);
+            } else if (map.containsKey("faceIDInfo")){
+                return mapToObject(map, FaceIDInfoDto.class);
             } else {
                 return null;
             }

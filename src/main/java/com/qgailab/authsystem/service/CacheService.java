@@ -1,6 +1,7 @@
 package com.qgailab.authsystem.service;
 
 import com.qgailab.authsystem.constance.MachineType;
+import com.qgailab.authsystem.model.dto.FaceIDInfoDto;
 import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.SignatureInfoDto;
@@ -101,6 +102,12 @@ public interface CacheService {
      * @Date : 2019-11-17
      */
     SignatureInfoDto cacheSignatureInfo( SignatureInfoDto signatureInfoDto);
+
+    FaceIDInfoDto cacheFaceIDInfo(FaceIDInfoDto faceIDInfoDto);
+
+    void delFaceIDInfoCache(Integer machineId);
+
+    FaceIDInfoDto queryFaceIDInfo(Integer machineId);
 
     /**
      * @Description : 删除缓存的签名信息的缓存

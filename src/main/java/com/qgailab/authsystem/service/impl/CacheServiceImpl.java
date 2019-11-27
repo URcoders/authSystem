@@ -1,6 +1,7 @@
 package com.qgailab.authsystem.service.impl;
 
 import com.qgailab.authsystem.constance.MachineType;
+import com.qgailab.authsystem.model.dto.FaceIDInfoDto;
 import com.qgailab.authsystem.model.dto.FingerInfoDto;
 import com.qgailab.authsystem.model.dto.IdCardInfoDto;
 import com.qgailab.authsystem.model.dto.SignatureInfoDto;
@@ -72,10 +73,27 @@ public class CacheServiceImpl implements CacheService {
     public void delFingerInfoCache(Integer machineId) {
 
     }
-
     @Cacheable(value = "tcp_temp" , key = "'fingerInfo:' + #machineId" , unless="#result == null")
     @Override
     public FingerInfoDto queryFingerInfo(Integer machineId) {
+        return null;
+    }
+
+    @Cacheable( value = "tcp_temp" , key = "'faceIDInfo:' + #faceIDInfoDto.faceIDMachine")
+    @Override
+    public FaceIDInfoDto cacheFaceIDInfo(FaceIDInfoDto faceIDInfoDto) {
+        return faceIDInfoDto;
+    }
+
+    @CacheEvict(value = "tcp_temp" , key = "'faceIDInfo:' + #machineId")
+    @Override
+    public void delFaceIDInfoCache(Integer machineId) {
+
+    }
+
+    @Cacheable(value = "tcp_temp" , key = "'faceIDInfo:' + #machineId" , unless="#result == null")
+    @Override
+    public FaceIDInfoDto queryFaceIDInfo(Integer machineId) {
         return null;
     }
 

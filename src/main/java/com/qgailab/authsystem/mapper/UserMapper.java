@@ -24,9 +24,9 @@ public interface UserMapper {
     Integer getCountByIdCard(String idCard);
 
     @Insert("INSERT INTO user(id_card,name,sex,finger_info,signature,nation" +
-            ",register_date,tel,address,get_card_date) " +
+            ",register_date,tel,address,get_card_date,faceID_info) " +
             "values(#{idCard},#{name},#{sex},#{fingerInfo},#{signature},#{nation}," +
-            "#{registerDate},#{tel},#{address},#{getCardDate})")
+            "#{registerDate},#{tel},#{address},#{getCardDate},#{faceIDInfo})")
     void insertUser(UserPo userPo);
 
 }

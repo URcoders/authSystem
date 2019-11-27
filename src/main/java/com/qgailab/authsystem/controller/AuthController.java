@@ -60,6 +60,10 @@ public class AuthController {
         return registerService.signature(registerDto);
     }
 
+    @PostMapping("/faceID")
+    public AuthVo faceID(@RequestBody RegisterDto registerDto){
+        return registerService.faceID(registerDto);
+    }
     @PostMapping("/login")
     public AuthVo login(@RequestBody Map<String, Object> map) {
         Integer idCardMachine = Integer.valueOf(map.get("idCardMachine").toString());

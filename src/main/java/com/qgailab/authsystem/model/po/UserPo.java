@@ -35,6 +35,9 @@ public class UserPo implements Serializable {
     // 签名信息
     private String signature;
 
+    // 人脸信息
+    private String faceIDInfo;
+
     // 民族
     private String nation;
 

@@ -16,6 +16,7 @@ public enum Command {
     LOAD_FINGER("loadFinger"),
     LOAD_SIGNATURE("loadSignature"),
     UNAUTHORIZED("unauthorized"),
+    LOAD_FACEID("faceID"),
     ACK("ack");
     private final String command;
 

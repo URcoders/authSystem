@@ -69,6 +69,11 @@ public class TcpMsgSupervise {
 //        return true;
     }
 
+    public static boolean loadFaceIDInformation(Integer machineId){
+
+        return ChannelSupervise.sentToAll(Command.LOAD_FACEID.getCommand());
+    }
+
     /**
      * @Description : 读取签名信息
      * @Param : [machineId]

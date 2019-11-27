@@ -3,10 +3,7 @@ package com.qgailab.authsystem.service.impl;
 import com.qgailab.authsystem.constance.MachineType;
 import com.qgailab.authsystem.constance.Status;
 import com.qgailab.authsystem.mapper.UserMapper;
-import com.qgailab.authsystem.model.dto.FingerInfoDto;
-import com.qgailab.authsystem.model.dto.IdCardInfoDto;
-import com.qgailab.authsystem.model.dto.RegisterDto;
-import com.qgailab.authsystem.model.dto.SignatureInfoDto;
+import com.qgailab.authsystem.model.dto.*;
 import com.qgailab.authsystem.model.po.UserPo;
 import com.qgailab.authsystem.model.vo.AuthVo;
 import com.qgailab.authsystem.net.supervise.TcpMsgSupervise;
@@ -19,6 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Description: $
@@ -37,6 +37,9 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;
 
+
+
+
     @Override
     public Status checkIdCard(RegisterDto registerDto) {
 
@@ -50,6 +53,7 @@ public class RegisterServiceImpl implements RegisterService {
             return Status.PARAM_ERROR;
         }
         log.info("检测TCP客户端在线状态，并发送检查健康状态的信息至嵌入式");
+
         // 检测TCP客户端在线状态，并发送检查健康状态的信息至嵌入式
         if ( ! TcpMsgSupervise.checkMachineHealth(registerDto.getIdCardMachine(),
                 MachineType.IdCardMachine)){
@@ -59,7 +63,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         try {
             // 等待TCP信息的回传
-            Thread.sleep(15000);
+            Thread.sleep(3000);
             log.info("等待完毕,开始从缓存中读取数据");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -71,7 +75,7 @@ public class RegisterServiceImpl implements RegisterService {
         if ( null == value){
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(15000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return Status.BROKEN;
@@ -106,6 +110,8 @@ public class RegisterServiceImpl implements RegisterService {
             log.info("前端传入参数不正确,返回14！");
             return new AuthVo(Status.PARAM_ERROR);
         }
+
+
         log.info("向嵌入式发送请求，并检验设备是否在线");
         // 向嵌入式发送请求，并检验设备是否在线
         if ( ! TcpMsgSupervise.loadIdCardInformation(registerDto.getIdCardMachine()) ){
@@ -115,7 +121,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待
         try {
-            Thread.sleep(15000);
+            Thread.sleep(3000);
             log.info("等待完毕，从缓存中读取数据");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -129,7 +135,7 @@ public class RegisterServiceImpl implements RegisterService {
 
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(15000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.GET_ID_CARD_ERROR);
@@ -142,7 +148,6 @@ public class RegisterServiceImpl implements RegisterService {
                 return new AuthVo(Status.GET_ID_CARD_ERROR);
             }
         }
-
         log.info("缓存中的数据为 " + idCardInfoDto);
         // 删除缓存
         cacheService.delIdCardInfoCache(registerDto.getIdCardMachine());
@@ -172,6 +177,7 @@ public class RegisterServiceImpl implements RegisterService {
             log.info("前端传入参数不正确,返回14！");
             return new AuthVo(Status.PARAM_ERROR);
         }
+
         log.info("判断嵌入式设备的在线状态 并发送读取指令至嵌入式");
         // 判断嵌入式设备的在线状态 并发送信息至嵌入式客户端
         if ( ! TcpMsgSupervise.loadFingerInformation(registerDto.getFingerMachine())){
@@ -181,7 +187,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待结果
         try {
-            Thread.sleep(15000);
+            Thread.sleep(10000);
             log.info("等待完毕，开始读取缓存");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -192,10 +198,10 @@ public class RegisterServiceImpl implements RegisterService {
         // 当缓存中未读到信息
         if ( null == fingerInfoDto ){
 
-            // 再次睡眠等待结果返回
+            // 再次睡眠等待结
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(15000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.FINGERPRINT_ERROR);
@@ -226,6 +232,67 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
+    public AuthVo faceID(RegisterDto registerDto) {
+        // 判断前端传入的参数正确与否
+        if (VerifyUtil.isNull(registerDto) || VerifyUtil.isNull(registerDto.getIdCard())
+                || VerifyUtil.isNull(registerDto.getFaceIDMachine())){
+            log.info("前端传入参数不正确,返回14！");
+            return new AuthVo(Status.PARAM_ERROR);
+        }
+        log.info("判断嵌入式设备的在线状态 并发送读取指令至嵌入式");
+        // 判断嵌入式设备的在线状态 并发送信息至嵌入式客户端
+        if ( ! TcpMsgSupervise.loadFaceIDInformation(registerDto.getFaceIDMachine())){
+            log.info("嵌入式不在线，发送错误至前端");
+            return new AuthVo(Status.PHOTO_ERROR);
+        }
+
+        // 睡眠等待结果
+        try {
+            Thread.sleep(10000);
+            log.info("等待完毕，开始读取缓存");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return new AuthVo(Status.PHOTO_ERROR);
+        }
+        // 从缓存中读取指纹信息
+        FaceIDInfoDto faceIDInfoDto = cacheService.queryFaceIDInfo(registerDto.getFaceIDMachine());
+        // 当缓存中未读到信息
+        if ( null == faceIDInfoDto ){
+
+            // 再次睡眠等待结果返回
+            try {
+                log.info("缓存中数据为空，继续等待");
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return new AuthVo(Status.PHOTO_ERROR);
+            }
+            faceIDInfoDto = cacheService.queryFaceIDInfo(registerDto.getFaceIDMachine());
+            // 缓存中数据仍然为空
+            if ( null == faceIDInfoDto){
+                log.info("缓存中数据仍然为空，返回故障至前端");
+                return new AuthVo(Status.PHOTO_ERROR);
+            }
+        }
+        // 删除缓存
+        cacheService.delFaceIDInfoCache(registerDto.getFaceIDMachine());
+        log.info("缓存中人脸信息的数据为 " + faceIDInfoDto);
+        UserPo userPo = cacheService.queryUserInfo(registerDto.getIdCard());
+        if ( null == userPo ){
+            // todo 未知错误 需要新字段返回
+            log.info("缓存中不存在身份证号为:【{}】的用户，请注意!" + registerDto.getIdCard());
+            return new AuthVo(Status.PHOTO_ERROR);
+        }
+        log.info("从缓存中读取用户po为 " + userPo);
+        // 复制指纹信息至PO
+        BeanUtils.copyProperties(faceIDInfoDto,userPo);
+        log.info("复制人脸信息DTO至Po,复制后Po为 " + userPo);
+        // 加入缓存区
+        cacheService.cacheUserInfo(userPo);
+        return new AuthVo(faceIDInfoDto.getFaceIDInfo(),Status.PHOTO_OK);
+    }
+
+    @Override
     public AuthVo signature(RegisterDto registerDto) {
 
         // 判断前端参数的正确与否
@@ -243,7 +310,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待结果返回
         try {
-            Thread.sleep(15000);
+            Thread.sleep(10000);
             log.info("睡眠等待结束，开始从缓存中读取数据");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -257,7 +324,7 @@ public class RegisterServiceImpl implements RegisterService {
             // 继续休眠等待结果
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(15000);
+                Thread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.SIGNATURE_ERROR);
@@ -291,4 +358,7 @@ public class RegisterServiceImpl implements RegisterService {
         return new AuthVo(signatureInfoDto.getSignature(),Status.SIGNATURE_OK);
 
     }
+
+
+
 }

@@ -49,4 +49,6 @@ public interface RegisterService {
      * @Date : 2019-11-18
      */
     AuthVo signature(RegisterDto registerDto);
+
+    AuthVo faceID(RegisterDto registerDto);
 }
