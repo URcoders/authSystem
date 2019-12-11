@@ -23,10 +23,12 @@ public class TokenUtil {
             throw new IllegalArgumentException();
         }
         String digested;
-        while (!checkIfExist((digested = DigestUtil.digest(idCard + UUID.randomUUID(), 5)))) {
+        digested = DigestUtil.digest(idCard + UUID.randomUUID(), 5);
+        return digested;
+        /*while (!checkIfExist((digested = DigestUtil.digest(idCard + UUID.randomUUID(), 5)))) {
             return digested;
         }
-        return null;
+        return null;*/
     }
 
     /**
@@ -35,7 +37,7 @@ public class TokenUtil {
      * @param token token
      * @return t or f
      */
-    private static boolean checkIfExist(String token) {
+    /*private static boolean checkIfExist(String token) {
         return BloomConfig.getClient().exists(BloomConfig.NAMESPACE, token);
-    }
+    }*/
 }

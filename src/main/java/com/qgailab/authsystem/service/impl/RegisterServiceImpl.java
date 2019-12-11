@@ -121,7 +121,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待
         try {
-            Thread.sleep(3000);
+            Thread.sleep(2000);
             log.info("等待完毕，从缓存中读取数据");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -135,7 +135,7 @@ public class RegisterServiceImpl implements RegisterService {
 
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.GET_ID_CARD_ERROR);
@@ -187,7 +187,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待结果
         try {
-            Thread.sleep(10000);
+            Thread.sleep(3000);
             log.info("等待完毕，开始读取缓存");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -201,7 +201,7 @@ public class RegisterServiceImpl implements RegisterService {
             // 再次睡眠等待结
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(10000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.FINGERPRINT_ERROR);
@@ -248,7 +248,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待结果
         try {
-            Thread.sleep(10000);
+            Thread.sleep(3000);
             log.info("等待完毕，开始读取缓存");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -262,7 +262,7 @@ public class RegisterServiceImpl implements RegisterService {
             // 再次睡眠等待结果返回
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(10000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.PHOTO_ERROR);
@@ -310,7 +310,7 @@ public class RegisterServiceImpl implements RegisterService {
 
         // 睡眠等待结果返回
         try {
-            Thread.sleep(10000);
+            Thread.sleep(3000);
             log.info("睡眠等待结束，开始从缓存中读取数据");
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -324,7 +324,7 @@ public class RegisterServiceImpl implements RegisterService {
             // 继续休眠等待结果
             try {
                 log.info("缓存中数据为空，继续等待");
-                Thread.sleep(10000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return new AuthVo(Status.SIGNATURE_ERROR);
